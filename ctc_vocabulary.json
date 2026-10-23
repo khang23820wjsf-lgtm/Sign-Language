@@ -1,0 +1,30 @@
+{
+  "blankId": 0,
+  "blankToken": "<blank>",
+  "featureDim": 212,
+  "featureVersion": "v1-canonical-left106-right106",
+  "modelArchitecture": "1D-CNN + 2x BiLSTM + Linear(num_classes)",
+  "words": [
+    "BÁC_SĨ",
+    "BẠN",
+    "BỤNG",
+    "BỆNH_VIỆN",
+    "CẦN",
+    "CẢM_ƠN",
+    "GIÚP_ĐỠ",
+    "GÌ",
+    "KHÔNG",
+    "KHOẺ",
+    "NHÀ",
+    "NƯỚC",
+    "SỐT",
+    "THUỐC",
+    "TÊN",
+    "TÔI",
+    "UỐNG",
+    "XIN_CHÀO",
+    "ĂN",
+    "ĐAU",
+    "ĐẦU"
+  ]
+}

@@ -1,0 +1,71 @@
+# VSL Continuous Recognition Model Configuration
+project_name: "VSL Continuous Recognition Model"
+seed: 42
+device: "auto" # "auto", "cpu", or "cuda"
+
+vocabulary:
+  vocab_path: "ctc_vocabulary.json"
+  blank_id: 0
+  blank_token: "<blank>"
+
+features:
+  ctc_feature_dim: 212
+  single_hand_dim: 106
+  single_sign_dim: 138
+  single_sign_seq_len: 30
+  feature_version: "v1-canonical-left106-right106"
+  max_occlusion_interpolation_gap_ms: 500
+
+ctc_model:
+  architecture: "1D-CNN + 2x BiLSTM + Linear(num_classes)"
+  input_dim: 212
+  conv_channels: 64
+  conv_kernel_size: 3
+  conv_padding: 1
+  conv_dropout: 0.2
+  hidden_dim: 128
+  num_lstm_layers: 2
+  lstm_dropout: 0.25
+  fc_hidden_dim: 64
+  fc_dropout: 0.2
+
+single_sign_baseline:
+  architecture: "Conv1D(32,k=3) + MaxPool1D(2) + BiLSTM(32) + Dropout(0.25) + Dense(32) + Softmax"
+  sequence_length: 30
+  input_dim: 138
+  conv_filters: 32
+  conv_kernel_size: 3
+  pool_size: 2
+  lstm_units: 32
+  dropout: 0.25
+  dense_units: 32
+
+training:
+  dataset_path: "vsl_continuous_ctc_dataset.json"
+  output_model: "ctc_bilstm_vsl.pth"
+  epochs: 30
+  batch_size: 4
+  lr: 0.001
+  weight_decay: 0.0001
+  grad_clip_norm: 2.0
+  scheduler: "cosine"
+  early_stopping_patience: 10
+  train_ratio: 0.70
+  val_ratio: 0.15
+  min_sequence_length: 3
+
+boundary_detection:
+  velocity_threshold: 0.024
+  min_rest_ms: 160
+  min_motion_ms: 180
+  min_cumulative_motion: 0.08
+  min_total_displacement: 0.04
+  max_lost_tolerance_ms: 200
+  sliding_window_capacity: 200
+  pre_motion_padding_ms: 100
+  pause_bridging_grace_ms: 220
+
+streaming:
+  window_size_frames: 75
+  stride_frames: 12
+  min_frames_to_infer: 20
